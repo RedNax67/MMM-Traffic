@@ -41,6 +41,8 @@ Module.register('MMM-Traffic', {
             'transit': 'fa fa-train'
         };
         this.commute = '';
+		this.withTraffic = '';
+		this.noTraffic = '';
         this.summary = '';
         this.updateCommute(this);
     },
@@ -90,9 +92,9 @@ Module.register('MMM-Traffic', {
           var routeName = document.createElement('div');
           routeName.className = 'dimmed small';
           if (this.summary.length > 0 && this.config.show_summary){
-            routeName.innerHTML = this.config.route_name + ' via ' + this.summary; //todo translatable?
+            routeName.innerHTML = this.config.route_name + ' via ' + this.summary + ' ipv ' + this.noTraffic; //todo translatable?
           } else {
-            routeName.innerHTML = this.config.route_name;
+            routeName.innerHTML = this.config.route_name + ' ipv ' + this.noTraffic;
           }
           wrapper.appendChild(routeName);
         }
@@ -115,9 +117,12 @@ Module.register('MMM-Traffic', {
     socketNotificationReceived: function(notification, payload) {
         if (notification === 'TRAFFIC_COMMUTE' && payload.url === this.url) {
             Log.info('received TRAFFIC_COMMUTE');
+			Log.info(this.url);
             this.commute = payload.commute;
             this.summary = payload.summary;
-            this.trafficComparison = payload.trafficComparison;
+			this.withTraffic = payload.withTraffic;
+			this.noTraffic = payload.noTraffic;
+			this.trafficComparison = payload.trafficComparison;
             this.loaded = true;
             this.updateDom(1000);
         }
