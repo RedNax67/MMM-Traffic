@@ -34,6 +34,8 @@ Module.register('MMM-Traffic', {
         }
         this.loaded = false;
         this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
+		Log.info(this.url);
+
         this.symbols = {
             'driving': 'fa fa-car',
             'walking': 'fa fa-odnoklassniki',
