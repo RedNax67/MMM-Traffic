@@ -61,6 +61,7 @@ Module.register('MMM-Traffic', {
     getDom: function() {
         var wrapper = document.createElement("div");
         var commuteInfo = document.createElement('div'); //support for config.changeColor
+		commuteInfo.className = 'small';
 
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
@@ -74,9 +75,8 @@ Module.register('MMM-Traffic', {
 
         //commute time
         var trafficInfo = document.createElement('span');
-        trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
-        commuteInfo.appendChild(trafficInfo);
-
+		trafficInfo.className = 'small';
+ 
         //change color if desired and append
         if (this.config.changeColor) {
           if (this.trafficComparison >= 1 + (this.config.limitRed / 100)) {
@@ -91,15 +91,18 @@ Module.register('MMM-Traffic', {
 
         //routeName
         if (this.config.route_name) {
-          var routeName = document.createElement('div');
-          routeName.className = 'dimmed small';
+          //var routeName = document.createElement('div');
+          //routeName.className = 'dimmed small';
           if (this.summary.length > 0 && this.config.show_summary){
-            routeName.innerHTML = this.config.route_name + ' via ' + this.summary + ' ipv ' + this.noTraffic; //todo translatable?
+			trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute + ' via ' + this.summary;
+            //routeName.innerHTML = this.config.route_name + ' via ' + this.summary + ' ipv ' + this.noTraffic; //todo translatable?
           } else {
-            routeName.innerHTML = this.config.route_name + ' ipv ' + this.noTraffic;
+			trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
+            //routeName.innerHTML = this.config.route_name + ' ipv ' + this.noTraffic;
           }
-          wrapper.appendChild(routeName);
+          //wrapper.appendChild(routeName);
         }
+        commuteInfo.appendChild(trafficInfo);
 
         return wrapper;
     },
